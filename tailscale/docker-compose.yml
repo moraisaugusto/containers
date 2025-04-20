@@ -1,0 +1,15 @@
+services:
+  tailscale:
+    container_name: tailscale
+    image: tailscale/tailscale:latest
+    hostname: tailscale
+    environment:
+      - TS_AUTHKEY=YOUR_KEY
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_ROUTES=192.168.50.0/24
+    volumes:
+      - /volume1/docker/tailscale/tun:/dev/net/tun
+      - /volume1/docker/tailscale/lib:/var/lib/
+    restart: unless-stopped
+    network_mode: host
+    privileged: true                                                                                                                             
