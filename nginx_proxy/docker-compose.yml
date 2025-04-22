@@ -1,0 +1,22 @@
+services:
+ nginx-proxy-manager:
+  image: jc21/nginx-proxy-manager
+  container_name: Nginx-Proxy-Manager
+  healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/81' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+  volumes:
+    - /volume1/docker/nginx_proxy/letsencrypt:/etc/letsencrypt:rw
+    - /volume1/docker/nginx_proxy/data:/data:rw
+  environment:
+    TZ: Europe/Berlin
+    INITIAL_ADMIN_EMAIL: YOUR_EMAIL
+    INITIAL_ADMIN_PASSWORD: YOUR_PASS
+  ports:
+    - 443:443
+    - 81:81
+    - 80:80
+  restart: unless-stopped
