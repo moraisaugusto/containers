@@ -1,0 +1,78 @@
+services:
+  mariadb:
+    container_name: nextcloud-db
+    image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
+    security_opt:
+      - no-new-privileges:false
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
+    volumes:
+      - /volume1/docker/nextcloud/db:/var/lib/mysql:rw
+      - /volume1/docker/nextcloud/db:/etc/mysql/conf.d:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=YOUR_PASS
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - TZ=Europe/Berlin
+    restart: unless-stopped
+      
+  redis:
+    image: redis
+    container_name: nextcloud-redis
+    hostname: nextcloud_redis
+    user: 1000:10
+    healthcheck:
+     test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+    volumes:
+      - /volume1/docker/nextcloud/redis:/data:rw
+    environment:
+      TZ: Europe/Berlin
+    restart: unless-stopped
+      
+  nextcloud:
+    container_name: nextcloud
+    ports:
+      - 8082:80
+    depends_on:
+      mariadb:
+       condition: service_started
+      redis:
+       condition: service_healthy
+    environment:
+      - REDIS_HOST=nextcloud_redis
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=YOUR_PASS
+      - NEXTCLOUD_TRUSTED_DOMAINS=YOUR_DOMAIN 192.168.50.243
+      - TRUSTED_PROXIES=192.168.50.243
+      - OVERWRITEHOST=YOUR_DOMAIN
+      - OVERWRITEPROTOCOL=https
+      - MYSQL_PASSWORD=YOUR_PASS
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=mariadb
+    healthcheck:
+     test: curl -f http://localhost:80/ || exit 1
+    volumes:
+      - /volume1/docker/nextcloud/html:/var/www/html:rw
+      - /volume1/docker/nextcloud/custom_apps:/var/www/html/custom_apps:rw
+      - /volume1/docker/nextcloud/config:/var/www/html/config:rw
+      - /volume1/docker/nextcloud/data:/var/www/html/data:rw
+      - /volume1/docker/nextcloud/themes:/var/www/html/themes:rw
+    image: nextcloud
+    restart: unless-stopped
+    
+  cron:
+   image: nextcloud:apache
+   container_name: nextcloud-cron
+   restart: always
+   volumes:
+     - /volume1/docker/nextcloud/config:/var/www/html/config:rw
+     - /volume1/docker/nextcloud/html:/var/www/html:rw
+     - /volume1/docker/nextcloud/custom_apps:/var/www/html/custom_apps:rw
+     - /volume1/docker/nextcloud/data:/var/www/html/data:rw
+   entrypoint: /cron.sh
+   depends_on:
+    mariadb:
+       condition: service_started
+    redis:
+       condition: service_started
