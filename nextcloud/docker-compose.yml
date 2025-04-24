@@ -1,5 +1,5 @@
 services:
-  mariadb:
+  nextcloud_db:
     container_name: nextcloud-db
     image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
     security_opt:
@@ -7,12 +7,13 @@ services:
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-read-only-compressed=OFF
     volumes:
       - /volume1/docker/nextcloud/db:/var/lib/mysql:rw
-      - /volume1/docker/nextcloud/db:/etc/mysql/conf.d:rw
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=YOUR_PASS
+      - MYSQL_ROOT_PASSWORD=ROOT_PASS
+      - MYSQL_PASSWORD=NEXTCLOUD_DB_PASS
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DISABLE_UPGRADE_BACKUP=1
       - TZ=Europe/Berlin
     restart: unless-stopped
       
@@ -34,22 +35,19 @@ services:
     ports:
       - 8082:80
     depends_on:
-      mariadb:
+      nextcloud_db:
        condition: service_started
       redis:
        condition: service_healthy
     environment:
       - REDIS_HOST=nextcloud_redis
       - NEXTCLOUD_ADMIN_USER=admin
-      - NEXTCLOUD_ADMIN_PASSWORD=YOUR_PASS
-      - NEXTCLOUD_TRUSTED_DOMAINS=YOUR_DOMAIN 192.168.50.243
-      - TRUSTED_PROXIES=192.168.50.243
-      - OVERWRITEHOST=YOUR_DOMAIN
+      - NEXTCLOUD_ADMIN_PASSWORD=ADMIN_PASS
+      - NEXTCLOUD_TRUSTED_DOMAINS=YOUR_DOMAIN,192.168.*.*
       - OVERWRITEPROTOCOL=https
-      - MYSQL_PASSWORD=YOUR_PASS
+      - MYSQL_PASSWORD=NEXTCLOUD_DB_PASS
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
-      - MYSQL_HOST=mariadb
     healthcheck:
      test: curl -f http://localhost:80/ || exit 1
     volumes:
@@ -58,13 +56,13 @@ services:
       - /volume1/docker/nextcloud/config:/var/www/html/config:rw
       - /volume1/docker/nextcloud/data:/var/www/html/data:rw
       - /volume1/docker/nextcloud/themes:/var/www/html/themes:rw
-    image: nextcloud
+    image: nextcloud:latest
     restart: unless-stopped
     
   cron:
    image: nextcloud:apache
    container_name: nextcloud-cron
-   restart: always
+   restart: unless-stopped
    volumes:
      - /volume1/docker/nextcloud/config:/var/www/html/config:rw
      - /volume1/docker/nextcloud/html:/var/www/html:rw
@@ -72,7 +70,7 @@ services:
      - /volume1/docker/nextcloud/data:/var/www/html/data:rw
    entrypoint: /cron.sh
    depends_on:
-    mariadb:
+    nextcloud_db:
        condition: service_started
     redis:
        condition: service_started
