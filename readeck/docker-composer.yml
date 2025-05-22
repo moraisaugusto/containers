@@ -1,0 +1,37 @@
+services:
+  readeck:
+    container_name: readeck
+    image: codeberg.org/readeck/readeck:latest
+    mem_limit: 8g
+    cpu_shares: 1024
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - 4522:8000
+    volumes:
+      - /volume1/docker/readeck/data:/readeck:rw
+    environment:
+     READECK_USE_X_FORWARDED: true
+     READECK_DATABASE_SOURCE: postgres://readeck:PASS@readeck-db:5432/readeck
+
+  readeck-db:
+    image: postgres:17
+    container_name: readeck-db
+    hostname: readeck-db
+    mem_limit: 1g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "readeck", "-U", "readeck"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      - /volume1/docker/readeck/db:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_DB: readeck
+      POSTGRES_USER: readeck
+      POSTGRES_PASSWORD: PASS
+    restart: unless-stopped
