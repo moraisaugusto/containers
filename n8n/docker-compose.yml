@@ -1,0 +1,33 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 5678 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    hostname: n8n
+    user: 0:0
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 5678:5678
+    volumes:
+      - /volume1/docker/n8n/data:/root/.n8n:rw
+      - /volume1/docker/n8n/files:/files:rw
+    environment:
+      N8N_HOST: YOUR_DOMAIN
+      WEBHOOK_URL: https://YOUR_DOMAIN
+      N8N_EDITOR_BASE_URL: https://YOUR_DOMAIN
+      GENERIC_TIMEZONE: Europe/Berlin
+      TZ: Europe/Berlin
+      N8N_PORT: 5678
+      N8N_ENCRYPTION_KEY: YOUR_KEY_HERE
+      N8N_PROTOCOL: https
+      NODE_ENV: production
+      N8N_RUNNERS_ENABLED: true
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
+      N8N_SECURE_COOKIE: false
+      restart: on-failure:5
