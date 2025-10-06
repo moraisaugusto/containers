@@ -1,7 +1,9 @@
 ## Awesome NAS Containers
 A curated list of self-hosted applications designed to run as containers on your NAS (Network Attached Storage). Easily manage everything from your digital library and photo collection to document organization and workflow automation.
 
-<img src="./assets/homepage.png" width="800" >
+<div align="center">
+    <img src="./assets/homepage.png" width="800" >
+</div>
 
 
 ## Service Descriptions
