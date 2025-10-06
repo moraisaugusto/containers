@@ -4,14 +4,14 @@ A curated list of self-hosted applications designed to run as containers on your
 
 ## Service Descriptions
 
-| Icon | Service Name | Description |
-| :---: | :--- | :--- |
-| ![auto_calibre Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **auto\_calibre** | A self-hosted digital **library management** solution that automatically organizes and manages your e-books. |
-| ![homepage Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **homepage** | A customizable **dashboard** for your self-hosted services, providing a centralized view of all your applications. |
-| ![immich Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **immich** | A self-hosted **photo and video management** solution with AI-powered features for organizing your media collection. |
-| ![n8n Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **n8n** | An open-source **workflow automation** tool that allows you to connect different applications and services. |
-| ![nextcloud Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **nextcloud** | A comprehensive **file sharing and collaboration** platform with a focus on privacy and data control. |
-| ![nginx_proxy Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **nginx\_proxy** | A **reverse proxy server** that routes requests to different services based on domain names or paths. |
-| ![paperlessngx Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **paperless-ngx** | A **document management system** that automatically scans, indexes, and organizes your paper documents. |
-| ![readeck Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **readeck** | A self-hosted digital **reading management** system for organizing books and reading lists. |
-| ![tailscale Icon](https://cdn-icons-png.flaticon.com/16/3892/3892211.png) | **tailscale** | A secure **networking solution** that creates a virtual private network (VPN) between devices. |
+| Service | Description |
+| :--- | :--- |
+| ![Calibre Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/calibre.png) **auto\_calibre** | A self-hosted digital **library management** solution that automatically organizes and manages your e-books. |
+| ![Homepage Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homepage.png) **homepage** | A customizable **dashboard** for your self-hosted services, providing a centralized view of all your applications. |
+| ![Immich Icon](https://ui.immich.app/assets/immich-icon-32.png) **immich** | A self-hosted **photo and video management** solution with AI-powered features for organizing your media collection. |
+| ![n8n Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/n8n.png) **n8n** | An open-source **workflow automation** tool that allows you to connect different applications and services. |
+| ![Nextcloud Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nextcloud.png) **nextcloud** | A comprehensive **file sharing and collaboration** platform with a focus on privacy and data control. |
+| ![Nginx Proxy Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nginxproxymanager.png) **nginx\_proxy** | A **reverse proxy server** that routes requests to different services based on domain names or paths. |
+| ![Paperless-ngx Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/paperless-ngx.png) **paperless-ngx** | A **document management system** that automatically scans, indexes, and organizes your paper documents. |
+| ![Readeck Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/readeck.png) **readeck** | A self-hosted digital **reading management** system for organizing books and reading lists. |
+| ![Tailscale Icon](https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/tailscale.png) **tailscale** | A secure **networking solution** that creates a virtual private network (VPN) between devices. |
