@@ -1,0 +1,18 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "9443:9443" # HTTPS web interface
+      - "9000:9000" # Optional: HTTP web interface (legacy/local)
+      - "8000:8000" # Optional: Edge agent communication
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
