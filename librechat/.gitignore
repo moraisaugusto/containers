@@ -1,0 +1,18 @@
+# LibreChat runtime data and database stores
+/data-node/
+/meili_data*/
+
+# Media and user content
+/images/
+/uploads/
+/skill/
+
+# Logs
+/logs/
+*.log
+.mypy_cache
+
+# Sensitive environment credentials
+.env
+.env.*
+!.env.example
